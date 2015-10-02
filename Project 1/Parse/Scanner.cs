@@ -47,7 +47,7 @@ namespace Parse
                 }
    
                 // TODO: skip white space and comments
-                // use ascii characters to check 
+                // use ascii characters to check
 
                 else if (ch == -1 || ch == 0)
                     return null;
@@ -115,7 +115,7 @@ namespace Parse
                 // majorly confusing method. Look up how to do this??? Or ask Sam.
                 else if (ch >= '0' && ch <= '9')
                 {
-                    while (ch >= 48 && ch <= 57)
+                    while (ch >= 48 && ch <= 57) // veriy ascii
                     {
                         int i = ch - '0'; // this converts to int
                         ch = In.Next();
