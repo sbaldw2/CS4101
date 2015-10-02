@@ -28,7 +28,7 @@ namespace Parse
                 // input buffer and read characters out of that
                 // buffer, but reading individual characters from the
                 // input stream is easier. peek when you do ints/strs. add white space check. 
-                ch = In.Read() // sees next char
+                ch = In.Read(); // sees next char
                 if (ch == 10 || ch == 32 || ch == 9 || ch == 13 ) //isEmpty()?
                     return getNextToken(); // yeah dog keep going
                 else if (ch == 59) // hit a ;
@@ -36,8 +36,11 @@ namespace Parse
                      while(ch != 10) // as long as there's no ;
                      {
                         ch = In.Read(); // next char
-                        if( ch == -1 || ch == 0) // if stream breaks
+                        if (ch == -1 || ch == 0) // if stream breaks
+                        {
+                            Console.Error.WriteLine("Illegal input character '" + (char)ch + '\'');
                             break; // return error (null)
+                        }
                      }
                      if (ch == 10) // at da end
                         return getNextToken();
@@ -81,13 +84,13 @@ namespace Parse
                     }
                 }
 
-                // String constants; CHECK ON HOW TO USE PEEK??? DO WE NEED?? 
+                // String constants
                 else if (ch == '"') //it's a string!
                 {
                     buf = new buf[BUFSIZE]; // clean out buffer for new str
                     if (ch == 34) // if empty string
                         return new StringToken(new String(""));
-                    int StrCounter = 0 // counter/position for buffer
+                    int StrCounter = 0; // counter/position for buffer
                     while (ch != 34) 
                     {
                         if (ch = -1)
@@ -115,7 +118,7 @@ namespace Parse
                     while (ch >= 48 && ch <= 57)
                     {
                         int i = ch - '0'; // this converts to int
-                        ch = In.Peek();
+                        ch = In.Next();
                         if(ch == -1)
                         {
                             Console.Error.WriteLine("Illegal character '" + (char)ch + "' following #");
@@ -126,7 +129,7 @@ namespace Parse
                 }
         
                 // Identifiers
-                else if (ch >= 'A' && ch <= 'Z'
+                else if (ch >= 'A' && ch <= 'Z' || (ch >= 'a' && ch <= 'z')
                          // or ch is some other valid first character
                          // for an identifier
                          ) {
@@ -151,6 +154,13 @@ namespace Parse
                 Console.Error.WriteLine("IOException: " + e.Message);
                 return null;
             }
+        }
+
+        //Comment out or delete main function upon submission
+        //Only for testing the scanner
+        static void main(String[] args)
+        {
+            Console.WriteLine(""+ch+"");
         }
     }
 
