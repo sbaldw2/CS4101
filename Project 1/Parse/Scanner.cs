@@ -33,7 +33,7 @@ namespace Parse
                     return getNextToken(); // yeah dog keep going
                 else if (ch == 59) // hit a ;
                 {
-                     while(ch != 10) // as long as there's no ;
+                     while(ch != 10) // as long don't hit end of line
                      {
                         ch = In.Read(); // next char
                         if (ch == -1 || ch == 0) // if stream breaks
