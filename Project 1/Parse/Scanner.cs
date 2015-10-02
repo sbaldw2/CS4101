@@ -35,7 +35,7 @@ namespace Parse
                 {
                      while(ch != 10) // as long as there's no ;
                      {
-                        ch = In.Read();
+                        ch = In.Read(); // next char
                         if( ch == -1 || ch == 0) // if stream breaks
                             break; // return error (null)
                      }
@@ -81,24 +81,48 @@ namespace Parse
                     }
                 }
 
-                // String constants
-                else if (ch == '"')
+                // String constants; CHECK ON HOW TO USE PEEK??? DO WE NEED?? 
+                else if (ch == '"') //it's a string!
                 {
-                    // TODO: scan a string into the buffer variable buf
-                    // keep going until you hit the next ""?
-                    return new StringToken(new String(buf, 0, 0));
+                    buf = new buf[BUFSIZE]; // clean out buffer for new str
+                    if (ch == 34) // if empty string
+                        return new StringToken(new String(""));
+                    int StrCounter = 0 // counter/position for buffer
+                    while (ch != 34) 
+                    {
+                        if (ch = -1)
+                        {
+                            Console.Error.WriteLine("Illegal character '" + (char)ch + "' following #");
+                            return getNextToken();
+                        }
+                        buf[StrCounter] = (byte) ch; // store current byte value
+                        ch = In.Next(); // peek to check next byte
+                        if (ch = -1) // err check
+                        {
+                            Console.Error.WriteLine("Illegal character '" + (char)ch + "' following #");
+                            return getNextToken();
+                        }
+                        StrCounter = StrCounter + 1; // increment counter
+                    }
+                    return new StringToken(new String(buf, 0, StrCounter));
                 }
 
     
-                // Integer constants
+                // Integer constants--check if this is read as ASCII or int or what?
+                // majorly confusing method. Look up how to do this??? Or ask Sam.
                 else if (ch >= '0' && ch <= '9')
                 {
-                    int i = ch - '0';
-                    // TODO: scan the number and convert it to an integer
-
-                    // make sure that the character following the integer
-                    // is not removed from the input stream
-                    return new IntToken(i);
+                    while (ch >= 48 && ch <= 57)
+                    {
+                        int i = ch - '0'; // this converts to int
+                        ch = In.Peek();
+                        if(ch == -1)
+                        {
+                            Console.Error.WriteLine("Illegal character '" + (char)ch + "' following #");
+                            return getNextToken();
+                        }
+                        return new IntToken(i);
+                    }
                 }
         
                 // Identifiers
