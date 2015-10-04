@@ -88,18 +88,18 @@ namespace Parse
                 else if (ch == '"') //it's a string!
                 {
                     buf = new buf[BUFSIZE]; // clean out buffer for new str
-                    if (ch == 34) // if empty string
+                    if (ch == '"') // if empty string
                         return new StringToken(new String(""));
                     int StrCounter = 0; // counter/position for buffer
-                    while (ch != 34) 
+                    while (ch != '"') 
                     {
                         if (ch = -1)
                         {
                             Console.Error.WriteLine("Illegal character '" + (char)ch + "' following #");
                             return getNextToken();
                         }
-                        buf[StrCounter] = (byte) ch; // store current byte value
-                        ch = In.Next(); // peek to check next byte
+                        buf[StrCounter] = (char) ch; // store current byte value
+                        ch = In.Next(); // check next byte
                         if (ch = -1) // err check
                         {
                             Console.Error.WriteLine("Illegal character '" + (char)ch + "' following #");
@@ -115,17 +115,20 @@ namespace Parse
                 // majorly confusing method. Look up how to do this??? Or ask Sam.
                 else if (ch >= '0' && ch <= '9')
                 {
-                    while (ch >= 48 && ch <= 57) // veriy ascii
+                    while (ch >= '0' && ch <= '9') // verify ascii
                     {
-                        int i = ch - '0'; // this converts to int
+                        buf = new buf[BUFSIZE] // read in the chars
+                        int IntCounter = 0;
                         ch = In.Next();
                         if(ch == -1)
                         {
                             Console.Error.WriteLine("Illegal character '" + (char)ch + "' following #");
                             return getNextToken();
                         }
-                        return new IntToken(i);
+                        buf[IntCounter] = (char) ch;
                     }
+                    int i = Int32.Parse(buf);
+                    return new IntToken(i);
                 }
         
                 // Identifiers
