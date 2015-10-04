@@ -29,17 +29,16 @@ namespace Parse
                 // buffer, but reading individual characters from the
                 // input stream is easier. peek when you do ints/strs. add white space check. 
                 ch = In.Read(); // sees next char
-                if (ch == 10 || ch == 32 || ch == 9 || ch == 13 ) //isEmpty()?
+                if (isEmpty(ch)) //isEmpty()?
                     return getNextToken(); // yeah dog keep going
-                else if (ch == 59) // hit a ;
+                else if (ch == 59) // hit a ;--but see if we can condense into isEmpty??
                 {
                      while(ch != 10) // as long don't hit end of line
                      {
                         ch = In.Read(); // next char
-                        if (ch == -1 || ch == 0) // if stream breaks
+                        if (ch == -1 ) // if stream breaks
                         {
-                            Console.Error.WriteLine("Illegal input character '" + (char)ch + '\'');
-                            break; // return error (null)
+                            return null;
                         }
                      }
                      if (ch == 10) // at da end
@@ -49,7 +48,7 @@ namespace Parse
                 // TODO: skip white space and comments
                 // use ascii characters to check
 
-                else if (ch == -1 || ch == 0)
+                else if (ch == -1)
                     return null;
         
                 // Special characters
@@ -84,64 +83,67 @@ namespace Parse
                     }
                 }
 
-                // String constants
+                // String constants--TURN INTO LOWERCASE
                 else if (ch == '"') //it's a string!
                 {
                     buf = new buf[BUFSIZE]; // clean out buffer for new str
                     if (ch == '"') // if empty string
-                        return new StringToken(new String(""));
+                        return new StringToken(new String(''));
                     int StrCounter = 0; // counter/position for buffer
                     while (ch != '"') 
                     {
                         if (ch = -1)
                         {
-                            Console.Error.WriteLine("Illegal character '" + (char)ch + "' following #");
-                            return getNextToken();
+                            return null;
                         }
                         buf[StrCounter] = (char) ch; // store current byte value
                         ch = In.Next(); // check next byte
                         if (ch = -1) // err check
                         {
-                            Console.Error.WriteLine("Illegal character '" + (char)ch + "' following #");
-                            return getNextToken();
+                            return null;
                         }
                         StrCounter = StrCounter + 1; // increment counter
                     }
-                    return new StringToken(new String(buf, 0, StrCounter));
+                    String tempString = new String(buf,0,StrCounter); // prep for lowercase
+                    tempString = tempString.ToLower(); // lowercase
+                    return new StringToken(tempString);
                 }
 
     
                 // Integer constants--check if this is read as ASCII or int or what?
                 // majorly confusing method. Look up how to do this??? Or ask Sam.
-                else if (ch >= '0' && ch <= '9')
+                else if (isNum(ch)) // see helper method
                 {
-                    while (ch >= '0' && ch <= '9') // verify ascii
+                    while (isNum(ch)) // verify 
                     {
                         buf = new buf[BUFSIZE] // read in the chars
-                        int IntCounter = 0;
+                        int intCounter = 0;
                         ch = In.Next();
                         if(ch == -1)
                         {
-                            Console.Error.WriteLine("Illegal character '" + (char)ch + "' following #");
-                            return getNextToken();
+                            return null;
                         }
-                        buf[IntCounter] = (char) ch;
+                        buf[intCounter] = (char) ch;
                     }
                     int i = Int32.Parse(buf);
                     return new IntToken(i);
                 }
         
                 // Identifiers
-                else if (ch >= 'A' && ch <= 'Z' || (ch >= 'a' && ch <= 'z')
-                         // or ch is some other valid first character
-                         // for an identifier
-                         ) {
-                    // TODO: scan an identifier into the buffer
-
-                    // make sure that the character following the integer
-                    // is not removed from the input stream
-
-                    return new IdentToken(new String(buf, 0, 0));
+                else if (isIdentValid(ch))
+                {
+                    int identCounter = 0; // start the position 
+                    buf = new buf[BUFSIZE]; // clean buffer
+                    while (isIdentValid(ch))
+                    {
+                        char previousIdentifier = (char) ch
+                        identCounter++;
+                        buf[i] = (char) ch;
+                        ch = in.Next();
+                    }
+                    String tempString = new String(buf,0,StrCounter); // prep for lowercase
+                    tempString = tempString.ToLower(); // lowercase
+                    return new IdentToken(tempString);
                 }
     
                 // Illegal character
@@ -164,6 +166,42 @@ namespace Parse
         static void main(String[] args)
         {
             Console.WriteLine(""+ch+"");
+        }
+
+        private bool isEmpty(int ch)
+        {
+            return (ch == 10 || ch == 32 || ch == 9 || ch == 13 );
+        }
+
+        private bool isNum(int ch)
+        {
+            return (ch >= '0' && ch <= '9');
+        }
+
+        private bool isIdentValid(int ch)
+        {
+            return (ch >= 'A' && ch <= 'Z' 
+                || (ch >= 'a' && ch <= 'z')
+                // nums
+                || (ch >= '0' && ch <= '9')
+                // non-numbers and letters
+                || (ch == '!')
+                || (ch == '$')
+                || (ch == '%')
+                || (ch == '&')
+                || (ch == '*')
+                || (ch == '/')
+                || (ch == ':')
+                || (ch == '<')
+                || (ch == '=')
+                || (ch == '>')
+                || (ch == '?')
+                || (ch == '^')
+                || (ch == '_')
+                || (ch == '~')
+                // special identifiers
+                || (ch == '+')
+                || (ch == '-'))
         }
     }
 
