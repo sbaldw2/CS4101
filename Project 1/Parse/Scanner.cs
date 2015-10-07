@@ -139,7 +139,7 @@ namespace Parse
                         char previousIdentifier = (char)ch;
                         identCounter++;
                         buf[i] = (char) ch;
-                        ch = in.Next();
+                        ch = In.Next();
                     }
                     String tempString = new String(buf,0,StrCounter); // prep for lowercase
                     tempString = tempString.ToLower(); // lowercase
@@ -180,7 +180,7 @@ namespace Parse
 
         private bool isIdentValid(int ch)
         {
-            return (ch >= 'A' && ch <= 'Z'
+            return (ch >= 'A' && ch <= 'Z')
                 || (ch >= 'a' && ch <= 'z')
                 // nums
                 || (ch >= '0' && ch <= '9')
@@ -201,7 +201,7 @@ namespace Parse
                 || (ch == '~')
                 // special identifiers
                 || (ch == '+')
-                || (ch == '-'));
+                || (ch == '-');
         }
     }
 
