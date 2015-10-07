@@ -116,7 +116,7 @@ namespace Parse
                 {
                     while (isNum(ch)) // verify 
                     {
-                        buf = new buf[BUFSIZE] // read in the chars
+                        buf = new buf[BUFSIZE]; // read in the chars
                         int intCounter = 0;
                         ch = In.Next();
                         if(ch == -1)
@@ -136,7 +136,7 @@ namespace Parse
                     buf = new buf[BUFSIZE]; // clean buffer
                     while (isIdentValid(ch))
                     {
-                        char previousIdentifier = (char) ch
+                        char previousIdentifier = (char)ch;
                         identCounter++;
                         buf[i] = (char) ch;
                         ch = in.Next();
@@ -180,7 +180,7 @@ namespace Parse
 
         private bool isIdentValid(int ch)
         {
-            return (ch >= 'A' && ch <= 'Z' 
+            return (ch >= 'A' && ch <= 'Z'
                 || (ch >= 'a' && ch <= 'z')
                 // nums
                 || (ch >= '0' && ch <= '9')
@@ -201,7 +201,7 @@ namespace Parse
                 || (ch == '~')
                 // special identifiers
                 || (ch == '+')
-                || (ch == '-'))
+                || (ch == '-'));
         }
     }
 
