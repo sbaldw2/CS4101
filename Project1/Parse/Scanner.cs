@@ -130,7 +130,8 @@ namespace Parse
                         {
                             return null;
                         }
-                        buf[intCounter] = (char)ch;
+                        char bufInt = ch;
+                        buf[intCounter] = bufInt;
                     }
                     string intString = new string(buf);
                     int i = Int32.Parse(intString);
