@@ -54,20 +54,44 @@ namespace Parse
             Token currentToken = scanner.getNextToken();
             if (currentToken == null)
             {
-                Console.Error.WriteLine("Unexpected EOF following breaking parser");
                 return null;
             }
             return parseExp(currentToken);
         }
 
-        public Node parseExp(Token currentToken) // no lookahead
+        public Node parseExp(Token currentToken) // lookahead
         {
             currentToken = scanner.getNextToken();
             if (currentToken == null)
             {
-                Console.Error.WriteLine("Unexpected EOF following breaking parser");
-                return null;
-                // TODO, add null token??
+                Console.Error.WriteLine("Syntax Error - Unexpected EOF inside expression. Repearing error and terminating Parser.");
+                return new Nil();
+            }
+            else if (currentToken.getType() == TokenType.LPAREN)
+            {
+                Token peekToken = scanner.getNextToken();
+                if (peekToken == null)
+                {
+                    Console.Error.WriteLine("Syntax Error - Unexpected EOF inside expression. Repearing error and terminating Parser.");
+                    return new Nil();
+                }
+                else if (peekToken.getType() == TokenType.RPAREN)
+                {
+                    return new Nil();
+                }
+                else
+                {
+                    return new Cons(parseExp(peekToken), parseRest());
+                }
+
+            }
+            else if (currentToken.getType() == TokenType.TRUE)
+            {
+                return new BoolLit(true);
+            }
+            else if (currentToken.getType() == TokenType.FALSE)
+            {
+                return new BoolLit(false);
             }
             return null;
         }
@@ -77,18 +101,18 @@ namespace Parse
             Token currentToken = scanner.getNextToken();
             if (currentToken == null)
             {
-                Console.Error.WriteLine("Unexpected EOF following breaking parser");
+                Console.Error.WriteLine("Syntax Error - Unexpected EOF inside expression. Repearing error and terminating Parser.");
                 return null;
             }
             return parseExp(currentToken);
         }
 
-        public Node parseRest(Token currentToken) // no lookahead
+        public Node parseRest(Token currentToken) // lookahead
         {
             currentToken = scanner.getNextToken();
             if (currentToken == null)
             {
-                Console.Error.WriteLine("Unexpected EOF following breaking parser");
+                Console.Error.WriteLine("Syntax Error - Unexpected EOF inside expression. Repearing error and terminating Parser.");
                 return null;
                 // TODO, add null token??
             }
