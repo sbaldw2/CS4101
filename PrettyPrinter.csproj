@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProjectGuid>{00000000-0000-0000-0000-000000000000}</ProjectGuid>
+    <ProjectGuid>{3A111413-417C-47BE-880B-50D7BDD31268}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <NoStandardLibraries>false</NoStandardLibraries>
     <AssemblyName>ConsoleApplication</AssemblyName>
@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
+  <PropertyGroup>
+    <RootNamespace>PrettyPrinter</RootNamespace>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
@@ -38,6 +41,49 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include=".gitattributes" />
+    <None Include=".gitignore" />
+    <None Include="Project 1\Makefile" />
+    <None Include="Project 1\obj\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
+    <None Include="README.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Project 1\PrettyPrinter.csproj" />
+    <Content Include="Project 1\test-input.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Project 1\Parse\Parser.cs" />
+    <Compile Include="Project 1\Parse\Scanner.cs" />
+    <Compile Include="Project 1\Special\Begin.cs" />
+    <Compile Include="Project 1\Special\Cond.cs" />
+    <Compile Include="Project 1\Special\Define.cs" />
+    <Compile Include="Project 1\Special\If.cs" />
+    <Compile Include="Project 1\Special\Lambda.cs" />
+    <Compile Include="Project 1\Special\Let.cs" />
+    <Compile Include="Project 1\Special\Quote.cs" />
+    <Compile Include="Project 1\Special\Regular.cs" />
+    <Compile Include="Project 1\Special\Set.cs" />
+    <Compile Include="Project 1\Special\Special.cs" />
+    <Compile Include="Project 1\SPP.cs" />
+    <Compile Include="Project 1\Tokens\IdentToken.cs" />
+    <Compile Include="Project 1\Tokens\IntToken.cs" />
+    <Compile Include="Project 1\Tokens\StringToken.cs" />
+    <Compile Include="Project 1\Tokens\Token.cs" />
+    <Compile Include="Project 1\Tokens\TokenType.cs" />
+    <Compile Include="Project 1\Tree\BoolLit.cs" />
+    <Compile Include="Project 1\Tree\Cons.cs" />
+    <Compile Include="Project 1\Tree\Ident.cs" />
+    <Compile Include="Project 1\Tree\IntLit.cs" />
+    <Compile Include="Project 1\Tree\Nil.cs" />
+    <Compile Include="Project 1\Tree\Node.cs" />
+    <Compile Include="Project 1\Tree\StringLit.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include=".git\" />
+    <Folder Include="Project 1\bin\Debug\" />
+    <Folder Include="Project 1\obj\Debug\TempPE\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSHARP.Targets" />
   <ProjectExtensions>
