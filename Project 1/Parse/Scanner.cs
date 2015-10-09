@@ -86,19 +86,21 @@ namespace Parse
                 // String constants--TURN INTO LOWERCASE
                 else if (ch == '"') //it's a string!
                 {
-                    buf = new buf[BUFSIZE]; // clean out buffer for new str
+                    buf = new char[BUFSIZE]; // clean out buffer for new str
                     if (ch == '"') // if empty string
-                        return new StringToken(new String(''));
+                    {
+                        return new StringToken(new string(ch));
+                    }
                     int StrCounter = 0; // counter/position for buffer
                     while (ch != '"') 
                     {
-                        if (ch = -1)
+                        if (ch == -1)
                         {
                             return null;
                         }
                         buf[StrCounter] = (char) ch; // store current byte value
-                        ch = In.Next(); // check next byte
-                        if (ch = -1) // err check
+                        ch = In.Read(); // check next byte
+                        if (ch == -1) // err check
                         {
                             return null;
                         }
@@ -116,16 +118,17 @@ namespace Parse
                 {
                     while (isNum(ch)) // verify 
                     {
-                        buf = new buf[BUFSIZE]; // read in the chars
+                        buf = new char[BUFSIZE]; // read in the chars
                         int intCounter = 0;
-                        ch = In.Next();
+                        ch = In.Read();
                         if(ch == -1)
                         {
                             return null;
                         }
                         buf[intCounter] = (char) ch;
                     }
-                    int i = Int32.Parse(buf);
+                    string intString = new string(buf);
+                    int i = Int32.Parse(intString);
                     return new IntToken(i);
                 }
         
@@ -133,15 +136,15 @@ namespace Parse
                 else if (isIdentValid(ch))
                 {
                     int identCounter = 0; // start the position 
-                    buf = new buf[BUFSIZE]; // clean buffer
+                    buf = new char[BUFSIZE]; // clean buffer
                     while (isIdentValid(ch))
                     {
                         char previousIdentifier = (char)ch;
                         identCounter++;
-                        buf[i] = (char) ch;
-                        ch = In.Next();
+                        buf[identCounter] = (char) ch;
+                        ch = In.Read();
                     }
-                    String tempString = new String(buf,0,StrCounter); // prep for lowercase
+                    String tempString = new String(buf,0,identCounter); // prep for lowercase
                     tempString = tempString.ToLower(); // lowercase
                     return new IdentToken(tempString);
                 }
