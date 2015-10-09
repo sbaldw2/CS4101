@@ -166,10 +166,10 @@ namespace Parse
 
         //Comment out or delete main function upon submission
         //Only for testing the scanner
-        static void main(String[] args)
-        {
-            Console.WriteLine(""+ch+"");
-        }
+        //static void main(String[] args)
+        //{
+        //    Console.WriteLine(""+ch+"");
+        //}
 
         private bool isEmpty(int ch)
         {
