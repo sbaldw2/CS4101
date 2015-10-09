@@ -41,7 +41,6 @@ namespace Parse
                             return null;
                         }
                      }
-                     if (ch == 10) // at da end
                         return getNextToken();
                 }
    
@@ -87,10 +86,6 @@ namespace Parse
                 else if (ch == '"') //it's a string!
                 {
                     buf = new char[BUFSIZE]; // clean out buffer for new str
-                    if (ch == '"') // if empty string
-                    {
-                        return new StringToken(new string(ch));
-                    }
                     int StrCounter = 0; // counter/position for buffer
                     while (ch != '"') 
                     {
@@ -166,10 +161,10 @@ namespace Parse
 
         //Comment out or delete main function upon submission
         //Only for testing the scanner
-        //static void main(String[] args)
-        //{
-        //    Console.WriteLine(""+ch+"");
-        //}
+        static void main(String[] args)
+        {
+            // Console.WriteLine(""+ch+"");
+        }
 
         private bool isEmpty(int ch)
         {
@@ -209,3 +204,5 @@ namespace Parse
     }
 
 }
+
+//hello
