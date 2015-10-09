@@ -56,39 +56,42 @@ namespace Parse
                 Console.Error.WriteLine("Unexpected EOF following breaking parser");
                 return null;
             }
-            return parseExp(currentToken)
+            return parseExp(currentToken);
         }
 
         public Node parseExp(Token currentToken) // no lookahead
         {
-            Token currentToken = scanner.getNextToken();
+            currentToken = scanner.getNextToken();
             if (currentToken == null)
             {
                 Console.Error.WriteLine("Unexpected EOF following breaking parser");
                 return null;
                 // TODO, add null token??
             }
+            return null;
         }
   
         protected Node parseRest() // no lookahead
         {
-            if (currentToken = null)
+            Token currentToken = scanner.getNextToken();
+            if (currentToken == null)
             {
                 Console.Error.WriteLine("Unexpected EOF following breaking parser");
                 return null;
             }
-            return parseExp(currentToken)
+            return parseExp(currentToken);
         }
 
         public Node parseRest(Token currentToken) // no lookahead
         {
-            Token currentToken = scanner.getNextToken();
-            if (currentToken = null)
+            currentToken = scanner.getNextToken();
+            if (currentToken == null)
             {
                 Console.Error.WriteLine("Unexpected EOF following breaking parser");
                 return null;
                 // TODO, add null token??
             }
+            return null;
         }
 
         // TODO: Add any additional methods you might need.
