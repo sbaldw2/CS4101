@@ -111,7 +111,7 @@ namespace Parse
 
     
                 // Integer constants--check if this is read as ASCII or int or what?
-                // majorly confusing method. Look up how to do this??? Or ask Sam.
+                // majorly confusing method. Look up how to do this? do we still need this resolved?
                 else if (isNum(ch)) // see helper method
                 {
                     while (isNum(ch)) // verify 
@@ -206,4 +206,3 @@ namespace Parse
     }
 
 }
-
