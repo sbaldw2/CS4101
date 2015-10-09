@@ -109,6 +109,16 @@ namespace Parse
 
                 // Integer constants--check if this is read as ASCII or int or what?
                 // majorly confusing method. Look up how to do this? do we still need this resolved?
+                //Error:
+                //123
+                //Unhandled Exception: System.FormatException: Input string was not in a correct format.
+                    //at System.Number.StringToNumber(String str, NumberStyles options, NumberBuffer & number, NumberFormatInfo info, Boolean parseDecimal)
+                    //at System.Number.ParseInt32(String s, NumberStyles style, NumberFormatInfo info)
+                    //at System.Int32.Parse(String s)
+                    //at Parse.Scanner.getNextToken() in C: \Users\Sarah\Documents\GitHub\CS4101\Project1\Parse\Scanner.cs:line 126
+                    ///at Parse.Scanner.getNextToken() in C: \Users\Sarah\Documents\GitHub\CS4101\Project1\Parse\Scanner.cs:line 33
+                    //at SPP.Main(String[] args) in C: \Users\Sarah\Documents\GitHub\CS4101\Project1\SPP.cs:line 42
+
                 else if (isNum(ch)) // see helper method
                 {
                     while (isNum(ch)) // verify 
