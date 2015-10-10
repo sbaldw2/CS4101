@@ -64,7 +64,7 @@ namespace Parse
             currentToken = scanner.getNextToken();
             if (currentToken == null)
             {
-                Console.Error.WriteLine("Syntax Error - Unexpected EOF inside expression. Repearing error and terminating Parser.");
+                Console.Error.WriteLine("Syntax Error - Unexpected EOF inside expression. Repairing error and terminating Parser.");
                 Nil error = new Nil();
                 error.print(1);
                 return null;
