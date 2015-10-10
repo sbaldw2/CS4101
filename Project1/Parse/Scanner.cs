@@ -87,6 +87,7 @@ namespace Parse
                 {
                     buf = new char[BUFSIZE]; // clean out buffer for new str
                     int StrCounter = 0; // counter/position for buffer
+                    ch = In.Read();
                     while (ch != '"')
                     {
                         if (ch == -1)
@@ -108,47 +109,32 @@ namespace Parse
 
 
                 // Integer constants--check if this is read as ASCII or int or what?
-                // majorly confusing method. Look up how to do this? do we still need this resolved?
-                //Error:
-                //123
-                //Unhandled Exception: System.FormatException: Input string was not in a correct format.
-                    //at System.Number.StringToNumber(String str, NumberStyles options, NumberBuffer & number, NumberFormatInfo info, Boolean parseDecimal)
-                    //at System.Number.ParseInt32(String s, NumberStyles style, NumberFormatInfo info)
-                    //at System.Int32.Parse(String s)
-                    //at Parse.Scanner.getNextToken() in C: \Users\Sarah\Documents\GitHub\CS4101\Project1\Parse\Scanner.cs:line 126
-                    ///at Parse.Scanner.getNextToken() in C: \Users\Sarah\Documents\GitHub\CS4101\Project1\Parse\Scanner.cs:line 33
-                    //at SPP.Main(String[] args) in C: \Users\Sarah\Documents\GitHub\CS4101\Project1\SPP.cs:line 42
+
 
                 else if (isNum(ch)) // see helper method
                 {
-                    while (isNum(ch)) // verify 
-                    {
-                        buf = new char[BUFSIZE]; // read in the chars
-                        int intCounter = 0;
-                        ch = In.Read();
-                        if (ch == -1)
+                        int i = ch - '0';
+                        while (isNum(In.Peek()))
                         {
-                            return null;
+                            ch = In.Read();
+                            i = i * 10 + (ch - '0');
                         }
-                        char bufInt = ch;
-                        buf[intCounter] = bufInt;
-                    }
-                    string intString = new string(buf);
-                    int i = Int32.Parse(intString);
-                    return new IntToken(i);
+                        return new IntToken(i);
                 }
 
                 // Identifiers
-                else if (isIdentValid(ch))
+                else if (isIdentValid(ch) && !isEmpty(ch))
                 {
-                    int identCounter = 0; // start the position 
+                    int identCounter = 1; // start the position 
                     buf = new char[BUFSIZE]; // clean buffer
+                    buf[0] = (char) ch;
+                    ch = In.Peek();
                     while (isIdentValid(ch))
                     {
-                        char previousIdentifier = (char)ch;
+                        char previousIdentifier = (char) In.Read();
+                        buf[identCounter] = (char) previousIdentifier;
                         identCounter++;
-                        buf[identCounter] = (char)ch;
-                        ch = In.Read();
+                        ch = In.Peek();
                     }
                     String tempString = new String(buf, 0, identCounter); // prep for lowercase
                     tempString = tempString.ToLower(); // lowercase

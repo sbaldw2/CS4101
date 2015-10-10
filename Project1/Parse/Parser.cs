@@ -65,7 +65,9 @@ namespace Parse
             if (currentToken == null)
             {
                 Console.Error.WriteLine("Syntax Error - Unexpected EOF inside expression. Repearing error and terminating Parser.");
-                return new Nil.print(1);
+                Nil error = new Nil();
+                error.print(1);
+                return null;
             }
             else if (currentToken.getType() == TokenType.LPAREN)
             {
@@ -73,11 +75,15 @@ namespace Parse
                 if (peekToken == null)
                 {
                     Console.Error.WriteLine("Syntax Error - Unexpected EOF inside expression. Repearing error and terminating Parser.");
-                    return new Nil.print(1);
+                    Nil error = new Nil();
+                    error.print(1);
+                    return null;
                 }
                 else if (peekToken.getType() == TokenType.RPAREN)
                 {
-                    return new Nil.print(1);
+                    Nil rightParen = new Nil();
+                    rightParen.print(1);
+                    return null;
                 }
                 else
                 {
@@ -87,11 +93,16 @@ namespace Parse
             }
             else if (currentToken.getType() == TokenType.TRUE)
             {
-                return new Boollit(true).print(1);
+                // return new Boollit(true).print(1);
+                BoolLit trueToken = new BoolLit(true);
+                trueToken.print(1);
+                return trueToken;
             }
             else if (currentToken.getType() == TokenType.FALSE)
             {
-                return new BoolLit(false).print(1); // testing return + space method
+                BoolLit falseToken = new BoolLit(false);
+                falseToken.print(1);
+                return falseToken;
             }
             else if (currentToken.getType() == TokenType.QUOTE)
             {
@@ -100,15 +111,17 @@ namespace Parse
                 {
                     return new Cons(new Ident("quote"), new Nil());
                 }
-                return new Cons(new Ident("quote"), new Console(quoteNode, new Nil())); // something with trees idk
+                return new Cons(new Ident("quote"), new Cons(quoteNode, new Nil())); // something with trees idk
             }
             else if (currentToken.getType() == TokenType.INT)
             {
-                return new IntLit(currentToken.getValue()); // returns int value, need to add space
+                IntLit intToken = new IntLit(currentToken.getIntVal());
+                return intToken;// have no idea how to do this
             }
             else if (currentToken.getType() == TokenType.STRING)
             {
-                return new StringLit(currentToken.getString()); // returns string value, need to add space
+                StringLit stringToken = new StringLit(currentToken.getStringVal()); // this either
+                return stringToken;
             }
             else if (currentToken.getType() == TokenType.IDENT)
             {
@@ -117,12 +130,13 @@ namespace Parse
             else
             {
                 Console.Error.WriteLine("Syntax Error - Illegal parse token type, deleting token from stream.");
-                Node deleteNode = parseExp(deleteNode);
-                if (deleteNode == null)
-                {
-                    return new Nil();
-                }
+                 // Node deleteNode = parseExp(deleteNode); something with trees idk
+                // if (deleteNode == null) tree shit
+                //{
+                    //return new Nil();
+               // }
             }
+            return null;
         }
 
         protected Node parseRest() // no lookahead
@@ -162,10 +176,16 @@ namespace Parse
                 if (peekToken == null)
                 {
                     Console.Error.WriteLine("Syntax Error - Unexpected EOF inside expression. Repearing error and terminating Parser.");
-                    return new Nil.print(1);
+                    Nil errorNode = new Nil();
+                    errorNode.print(1);
+                    return null;
                 }
             }
             // TODO: dot expressions, leave this for now
+            Console.Error.WriteLine("end of if/elses");
+            Nil error = new Nil();
+            error.print(1);
+            return null;
         }
 
         // TODO: Add any additional methods you might need.
