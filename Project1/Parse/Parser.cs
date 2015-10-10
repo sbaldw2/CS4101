@@ -51,138 +51,98 @@ namespace Parse
 
         public Node parseExp() // no lookahead
         {
-            Token currentToken = scanner.getNextToken();
-            if (currentToken == null)
-            {
-                return null;
-            }
-            return parseExp(currentToken);
+            return parseExp(scanner.getNextToken());
         }
 
         public Node parseExp(Token currentToken) // lookahead
         {
-            currentToken = scanner.getNextToken();
-            if (currentToken == null)
+            var t = currentToken;
+            if (t == null)
             {
-                Console.Error.WriteLine("Syntax Error - Unexpected EOF inside expression. Repairing error and terminating Parser.");
-                Nil error = new Nil();
-                error.print(1);
                 return null;
             }
-            else if (currentToken.getType() == TokenType.LPAREN)
+            else if (t.getType() == TokenType.LPAREN)
             {
-                Token peekToken = scanner.getNextToken();
-                if (peekToken == null)
-                {
-                    Console.Error.WriteLine("Syntax Error - Unexpected EOF inside expression. Repearing error and terminating Parser.");
-                    Nil error = new Nil();
-                    return null;
-                }
-                else if (peekToken.getType() == TokenType.RPAREN)
-                {
-                    Nil rightParen = new Nil();
-                    return null;
-                }
-                else
-                {
-                    return new Cons(parseExp(peekToken), parseRest());
-                }
+                return parseRest();
+            }
+            else if (t.getType() == TokenType.TRUE)
+            {
+                return new BoolLit(true);
+            }
+            else if (t.getType() == TokenType.FALSE)
+            {
+                return new BoolLit(false);
+            }
+            else if (t.getType() == TokenType.QUOTE)
+            {
+                return new Cons(new Ident("quote"), new Cons(parseExp(), new Nil()));
+            }
+            else if (t.getType() == TokenType.INT)
+            {
+                return new IntLit(t.getIntVal());
+            }
+            else if (t.getType() == TokenType.STRING)
+            {
+                return new StringLit(t.getStringVal());
+            }
+            else if (t.getType() == TokenType.IDENT)
+            {
+                return new Ident(t.getName());
+            }
 
-            }
-            else if (currentToken.getType() == TokenType.TRUE)
-            {
-                // return new Boollit(true).print(1);
-                BoolLit trueToken = new BoolLit(true);
-                return trueToken;
-            }
-            else if (currentToken.getType() == TokenType.FALSE)
-            {
-                BoolLit falseToken = new BoolLit(false);
-                return falseToken;
-            }
-            else if (currentToken.getType() == TokenType.QUOTE)
-            {
-                Node quoteNode = parseExp();
-                if (quoteNode.isNull())
-                {
-                    return new Cons(new Ident("quote"), new Nil());
-                }
-                return new Cons(new Ident("quote"), new Cons(quoteNode, new Nil())); // something with trees idk
-            }
-            else if (currentToken.getType() == TokenType.INT)
-            {
-                IntLit intToken = new IntLit(currentToken.getIntVal());
-                return intToken;// have no idea how to do this
-            }
-            else if (currentToken.getType() == TokenType.STRING)
-            {
-                StringLit stringToken = new StringLit(currentToken.getStringVal()); // this either
-                return stringToken;
-            }
-            else if (currentToken.getType() == TokenType.IDENT)
-            {
-                Ident identToken = new Ident(currentToken.getName());
-                return identToken;
-            }
-            else
-            {
-                Console.Error.WriteLine("Syntax Error - Illegal parse token type, deleting token from stream.");
-                Node deleteNode = parseExp(currentToken);
-                if (deleteNode == null)
-                {
-                    return new Nil();
-                }
-            }
             return null;
         }
 
         protected Node parseRest() // no lookahead
         {
-            Token currentToken = scanner.getNextToken();
-            if (currentToken == null)
-            {
-                Console.Error.WriteLine("Syntax Error - Unexpected EOF inside expression. Repearing error and terminating Parser.");
-                return null;
-            }
-            return parseExp(currentToken);
+            return parseRest(scanner.getNextToken());
         }
 
         public Node parseRest(Token currentToken) // lookahead
         {
-            currentToken = scanner.getNextToken();
-            if (currentToken == null)
+            var t = currentToken;
+            if (t == null)
             {
-                Console.Error.WriteLine("Syntax Error - Unexpected EOF inside expression. Repearing error and terminating Parser.");
-                return new Nil();
+                return null;
             }
-            else if (currentToken.getType() == TokenType.LPAREN)
-            {
-                return new Cons(parseExp(currentToken), parseRest());
-            }
-            else if (currentToken.getType() == TokenType.RPAREN)
+            else if (t.getType() == TokenType.RPAREN)
             {
                 return new Nil();
-            }
-            else if (currentToken.getType() == TokenType.QUOTE)
-            {
-                return new Cons(parseExp(currentToken), parseRest());
             }
             else
             {
-                Token peekToken = scanner.getNextToken();
-                if (peekToken == null)
-                {
-                    Console.Error.WriteLine("Syntax Error - Unexpected EOF inside expression. Repearing error and terminating Parser.");
-                    Nil errorNode = new Nil();
-                    errorNode.print(1);
-                    return null;
-                }
+                return new Cons(parseExp(t), parserRest());
+
             }
             // TODO: dot expressions, leave this for now
-            Console.Error.WriteLine("end of if/elses");
-            Nil error = new Nil();
-            error.print(1);
-            return null;
+            //Console.Error.WriteLine("end of if/elses");
+            //Nil error = new Nil();
+            //error.print(1);
+            //return null;
+        }
+
+        protected Node parserRest()
+        {
+            var t = scanner.getNextToken();
+            if (t == null)
+            {
+                return null;
+            }
+            else if (t.getType() == TokenType.DOT)
+            {
+                var temp = parseExp();
+                t = scanner.getNextToken();
+                if (t.getType() == TokenType.RPAREN)
+                {
+                    return temp;
+                }
+
+                return null;
+            }
+            else
+            {
+                return parseRest(t);
+            }
         }
 
         // TODO: Add any additional methods you might need.
