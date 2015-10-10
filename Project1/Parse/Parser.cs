@@ -125,7 +125,8 @@ namespace Parse
             }
             else if (currentToken.getType() == TokenType.IDENT)
             {
-                return new Ident(currentToken.getName());
+                Ident identToken = new Ident(currentToken.getName());
+                return identToken;
             }
             else
             {
