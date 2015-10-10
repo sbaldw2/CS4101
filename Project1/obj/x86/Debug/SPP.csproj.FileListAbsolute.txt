@@ -3,3 +3,8 @@ C:\Users\Sarah\Documents\GitHub\CS4101\Project1\bin\Debug\SPP.pdb
 C:\Users\Sarah\Documents\GitHub\CS4101\Project1\obj\x86\Debug\SPP.csprojResolveAssemblyReference.cache
 C:\Users\Sarah\Documents\GitHub\CS4101\Project1\obj\x86\Debug\SPP.exe
 C:\Users\Sarah\Documents\GitHub\CS4101\Project1\obj\x86\Debug\SPP.pdb
+C:\Users\Kris\Documents\GitHub\CS4101\Project1\obj\x86\Debug\SPP.exe
+C:\Users\Kris\Documents\GitHub\CS4101\Project1\obj\x86\Debug\SPP.pdb
+C:\Users\Kris\Documents\GitHub\CS4101\Project1\obj\x86\Debug\SPP.csprojResolveAssemblyReference.cache
+C:\Users\Kris\Documents\GitHub\CS4101\Project1\bin\Debug\SPP.exe
+C:\Users\Kris\Documents\GitHub\CS4101\Project1\bin\Debug\SPP.pdb

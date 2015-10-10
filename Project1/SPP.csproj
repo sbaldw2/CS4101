@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProjectGuid>{981614F7-27B6-4BB7-8594-1FBB90D25E88}</ProjectGuid>
+    <ProjectGuid>{A9F73438-867E-4A20-BA37-0491776DDD59}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <NoStandardLibraries>false</NoStandardLibraries>
     <AssemblyName>SPP</AssemblyName>
@@ -68,6 +68,9 @@
     <Compile Include="Tree\Nil.cs" />
     <Compile Include="Tree\Node.cs" />
     <Compile Include="Tree\StringLit.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include=".vs\SPP\v14\.suo" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSHARP.Targets" />
   <ProjectExtensions>

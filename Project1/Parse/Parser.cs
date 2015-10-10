@@ -76,13 +76,11 @@ namespace Parse
                 {
                     Console.Error.WriteLine("Syntax Error - Unexpected EOF inside expression. Repearing error and terminating Parser.");
                     Nil error = new Nil();
-                    error.print(1);
                     return null;
                 }
                 else if (peekToken.getType() == TokenType.RPAREN)
                 {
                     Nil rightParen = new Nil();
-                    rightParen.print(1);
                     return null;
                 }
                 else
@@ -95,13 +93,11 @@ namespace Parse
             {
                 // return new Boollit(true).print(1);
                 BoolLit trueToken = new BoolLit(true);
-                trueToken.print(1);
                 return trueToken;
             }
             else if (currentToken.getType() == TokenType.FALSE)
             {
                 BoolLit falseToken = new BoolLit(false);
-                falseToken.print(1);
                 return falseToken;
             }
             else if (currentToken.getType() == TokenType.QUOTE)
@@ -131,11 +127,11 @@ namespace Parse
             else
             {
                 Console.Error.WriteLine("Syntax Error - Illegal parse token type, deleting token from stream.");
-                 // Node deleteNode = parseExp(deleteNode); something with trees idk
-                // if (deleteNode == null) tree shit
-                //{
-                    //return new Nil();
-               // }
+                Node deleteNode = parseExp(currentToken);
+                if (deleteNode == null)
+                {
+                    return new Nil();
+                }
             }
             return null;
         }
