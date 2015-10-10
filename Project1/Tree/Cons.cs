@@ -33,7 +33,12 @@ namespace Tree
  
         public override void print(int n)
         {
-            form.print(this, n, false);
+            // form.print(this, n, false);
+            Console.Write("(");
+            car.print(0);
+            Console.Write(" . ");
+            cdr.print(0);
+            Console.Write(")");
         }
 
         public override void print(int n, bool p)
