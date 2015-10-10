@@ -65,7 +65,7 @@ namespace Parse
             if (currentToken == null)
             {
                 Console.Error.WriteLine("Syntax Error - Unexpected EOF inside expression. Repearing error and terminating Parser.");
-                return new Nil();
+                return new Nil.print(1);
             }
             else if (currentToken.getType() == TokenType.LPAREN)
             {
@@ -73,11 +73,11 @@ namespace Parse
                 if (peekToken == null)
                 {
                     Console.Error.WriteLine("Syntax Error - Unexpected EOF inside expression. Repearing error and terminating Parser.");
-                    return new Nil();
+                    return new Nil.print(1);
                 }
                 else if (peekToken.getType() == TokenType.RPAREN)
                 {
-                    return new Nil();
+                    return new Nil.print(1);
                 }
                 else
                 {
@@ -87,13 +87,42 @@ namespace Parse
             }
             else if (currentToken.getType() == TokenType.TRUE)
             {
-                return new BoolLit(true);
+                return new Boollit(true).print(1);
             }
             else if (currentToken.getType() == TokenType.FALSE)
             {
-                return new BoolLit(false);
+                return new BoolLit(false).print(1); // testing return + space method
             }
-            return null;
+            else if (currentToken.getType() == TokenType.QUOTE)
+            {
+                Node quoteNode = parseExp();
+                if (quoteNode.isNull())
+                {
+                    return new Cons(new Ident("quote"), new Nil());
+                }
+                return new Cons(new Ident("quote"), new Console(quoteNode, new Nil())); // something with trees idk
+            }
+            else if (currentToken.getType() == TokenType.INT)
+            {
+                return new IntLit(currentToken.getValue()); // returns int value, need to add space
+            }
+            else if (currentToken.getType() == TokenType.STRING)
+            {
+                return new StringLit(currentToken.getString()); // returns string value, need to add space
+            }
+            else if (currentToken.getType() == TokenType.IDENT)
+            {
+                return new Ident(currentToken.getName());
+            }
+            else
+            {
+                Console.Error.WriteLine("Syntax Error - Illegal parse token type, deleting token from stream.");
+                Node deleteNode = parseExp(deleteNode);
+                if (deleteNode == null)
+                {
+                    return new Nil();
+                }
+            }
         }
 
         protected Node parseRest() // no lookahead
@@ -113,10 +142,30 @@ namespace Parse
             if (currentToken == null)
             {
                 Console.Error.WriteLine("Syntax Error - Unexpected EOF inside expression. Repearing error and terminating Parser.");
-                return null;
-                // TODO, add null token??
+                return new Nil();
             }
-            return null;
+            else if (currentToken.getType() == TokenType.LPAREN)
+            {
+                return new Cons(parseExp(currentToken), parseRest());
+            }
+            else if (currentToken.getType() == TokenType.RPAREN)
+            {
+                return new Nil();
+            }
+            else if (currentToken.getType() == TokenType.QUOTE)
+            {
+                return new Cons(parseExp(currentToken), parseRest());
+            }
+            else
+            {
+                Token peekToken = scanner.getNextToken();
+                if (peekToken == null)
+                {
+                    Console.Error.WriteLine("Syntax Error - Unexpected EOF inside expression. Repearing error and terminating Parser.");
+                    return new Nil.print(1);
+                }
+            }
+            // TODO: dot expressions, leave this for now
         }
 
         // TODO: Add any additional methods you might need.
