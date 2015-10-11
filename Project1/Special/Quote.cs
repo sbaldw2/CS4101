@@ -11,9 +11,22 @@ namespace Tree
         // TODO: Add an appropriate constructor.
 	public Quote() { }
 
-        public override void print(Node t, int n, bool p)
+        public override void print(Node a, int b, bool c)
         {
-            // TODO: Implement this function.
+            var spaces = new string(' ', b);
+            Console.Write(spaces + "\'");
+            a = a.getCdr();
+            do
+            {
+                if (a.getCar().isPair())
+                {
+                    (a.getCar() as Cons).form = new Regular();
+                }
+                a.getCar().print(0);
+                a = a.getCdr();
+            }
+
+            while (a.getCdr() != null);
         }
     }
 }
