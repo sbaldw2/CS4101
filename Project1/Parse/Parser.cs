@@ -59,14 +59,44 @@ namespace Parse
             var t = currentToken;
             if (t == null)
             {
+<<<<<<< HEAD
+                Console.Error.WriteLine("Syntax Error - Unexpected EOF inside expression. Repearing error and terminating Parser.");
+                return new Nil();
+            }
+            else if (currentToken.getType() == TokenType.LPAREN)
+            {
+                Token peekToken = scanner.getNextToken();
+                if (peekToken == null)
+                {
+                    Console.Error.WriteLine("Syntax Error - Unexpected EOF inside expression. Repearing error and terminating Parser.");
+                    return new Nil();
+                }
+                else if (peekToken.getType() == TokenType.RPAREN)
+                {
+                    return new Nil();
+                }
+                else
+                {
+                    return new Cons(parseExp(peekToken), parseRest());
+                }
+
+            }
+            else if (currentToken.getType() == TokenType.TRUE)
+            {
+                return new BoolLit(true);
+=======
                 return null;
             }
             else if (t.getType() == TokenType.LPAREN)
             {
                 return parseRest();
+>>>>>>> origin/master
             }
             else if (t.getType() == TokenType.TRUE)
             {
+<<<<<<< HEAD
+                return new BoolLit(false);
+=======
                 return new BoolLit(true);
             }
             else if (t.getType() == TokenType.FALSE)
@@ -88,6 +118,7 @@ namespace Parse
             else if (t.getType() == TokenType.IDENT)
             {
                 return new Ident(t.getName());
+>>>>>>> origin/master
             }
 
             return null;
@@ -103,6 +134,13 @@ namespace Parse
             var t = currentToken;
             if (t == null)
             {
+<<<<<<< HEAD
+                Console.Error.WriteLine("Syntax Error - Unexpected EOF inside expression. Repearing error and terminating Parser.");
+                return null;
+                // TODO, add null token??
+            }
+            return null;
+=======
                 return null;
             }
             else if (t.getType() == TokenType.RPAREN)
@@ -144,6 +182,7 @@ namespace Parse
             {
                 return parseRest(t);
             }
+>>>>>>> origin/master
         }
 
         // TODO: Add any additional methods you might need.

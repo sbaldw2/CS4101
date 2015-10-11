@@ -23,6 +23,20 @@ public class SPP
         if (args.Length == 1 && args[0].Equals("-d"))
         {
             // Console.Write("Scheme 4101> ");
+<<<<<<< HEAD
+            Token tok = scanner.getNextToken();
+            while (tok != null)
+            {
+                TokenType tt = tok.getType();
+
+                Console.Write(tt);
+                if (tt == TokenType.INT)
+                    Console.WriteLine(", intVal = " + tok.getIntVal());
+                else if (tt == TokenType.STRING)
+                    Console.WriteLine(", stringVal = " + tok.getStringVal());
+                else if (tt == TokenType.IDENT)
+                    Console.WriteLine(", name = " + tok.getName());
+=======
             Token t = scanner.getNextToken();
             while (t != null)
             {
@@ -35,6 +49,7 @@ public class SPP
                     Console.WriteLine(", stringVal = " + t.getStringVal());
                 else if (tt == TokenType.IDENT)
                     Console.WriteLine(", intVal = " + t.getName());
+>>>>>>> origin/master
                 else
                     Console.WriteLine();
 
@@ -44,6 +59,20 @@ public class SPP
             return 0;
         }
 
+<<<<<<< HEAD
+        // Create parser
+        Parser parser = new Parser(scanner);
+        Node root;
+
+        // Parse and pretty-print each input expression
+        root = parser.parseExp();
+        while (root != null) 
+        {
+            root.print(0);
+            root = parser.parseExp();
+        }
+
+=======
         //Create Parser
         Parser parser = new Parser(scanner);
         Node root = parser.parseExp();
@@ -53,6 +82,7 @@ public class SPP
             Console.WriteLine("");
             root = parser.parseExp();
         }
+>>>>>>> origin/master
         return 0;
     }
 }
