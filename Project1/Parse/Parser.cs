@@ -64,10 +64,8 @@ namespace Parse
             currentToken = scanner.getNextToken();
             if (currentToken == null)
             {
-                Console.Error.WriteLine("Syntax Error - Unexpected EOF inside expression. Repairing error and terminating Parser.");
-                Nil error = new Nil();
-                error.print(1);
-                return null;
+                Console.Error.WriteLine("Syntax Error - Unexpected EOF inside expression. Repearing error and terminating Parser.");
+                return new Nil();
             }
             else if (currentToken.getType() == TokenType.LPAREN)
             {
@@ -75,13 +73,11 @@ namespace Parse
                 if (peekToken == null)
                 {
                     Console.Error.WriteLine("Syntax Error - Unexpected EOF inside expression. Repearing error and terminating Parser.");
-                    Nil error = new Nil();
-                    return null;
+                    return new Nil();
                 }
                 else if (peekToken.getType() == TokenType.RPAREN)
                 {
-                    Nil rightParen = new Nil();
-                    return null;
+                    return new Nil();
                 }
                 else
                 {
@@ -91,47 +87,11 @@ namespace Parse
             }
             else if (currentToken.getType() == TokenType.TRUE)
             {
-                // return new Boollit(true).print(1);
-                BoolLit trueToken = new BoolLit(true);
-                return trueToken;
+                return new BoolLit(true);
             }
             else if (currentToken.getType() == TokenType.FALSE)
             {
-                BoolLit falseToken = new BoolLit(false);
-                return falseToken;
-            }
-            else if (currentToken.getType() == TokenType.QUOTE)
-            {
-                Node quoteNode = parseExp();
-                if (quoteNode.isNull())
-                {
-                    return new Cons(new Ident("quote"), new Nil());
-                }
-                return new Cons(new Ident("quote"), new Cons(quoteNode, new Nil())); // something with trees idk
-            }
-            else if (currentToken.getType() == TokenType.INT)
-            {
-                IntLit intToken = new IntLit(currentToken.getIntVal());
-                return intToken;// have no idea how to do this
-            }
-            else if (currentToken.getType() == TokenType.STRING)
-            {
-                StringLit stringToken = new StringLit(currentToken.getStringVal()); // this either
-                return stringToken;
-            }
-            else if (currentToken.getType() == TokenType.IDENT)
-            {
-                Ident identToken = new Ident(currentToken.getName());
-                return identToken;
-            }
-            else
-            {
-                Console.Error.WriteLine("Syntax Error - Illegal parse token type, deleting token from stream.");
-                Node deleteNode = parseExp(currentToken);
-                if (deleteNode == null)
-                {
-                    return new Nil();
-                }
+                return new BoolLit(false);
             }
             return null;
         }
@@ -153,35 +113,9 @@ namespace Parse
             if (currentToken == null)
             {
                 Console.Error.WriteLine("Syntax Error - Unexpected EOF inside expression. Repearing error and terminating Parser.");
-                return new Nil();
+                return null;
+                // TODO, add null token??
             }
-            else if (currentToken.getType() == TokenType.LPAREN)
-            {
-                return new Cons(parseExp(currentToken), parseRest());
-            }
-            else if (currentToken.getType() == TokenType.RPAREN)
-            {
-                return new Nil();
-            }
-            else if (currentToken.getType() == TokenType.QUOTE)
-            {
-                return new Cons(parseExp(currentToken), parseRest());
-            }
-            else
-            {
-                Token peekToken = scanner.getNextToken();
-                if (peekToken == null)
-                {
-                    Console.Error.WriteLine("Syntax Error - Unexpected EOF inside expression. Repearing error and terminating Parser.");
-                    Nil errorNode = new Nil();
-                    errorNode.print(1);
-                    return null;
-                }
-            }
-            // TODO: dot expressions, leave this for now
-            Console.Error.WriteLine("end of if/elses");
-            Nil error = new Nil();
-            error.print(1);
             return null;
         }
 
